@@ -36,7 +36,7 @@ hs_err_pid*
 
 
 # my folders
-.settings
+*/.settings/*
 Servers
 HelloSpring
 HelloWebDB
