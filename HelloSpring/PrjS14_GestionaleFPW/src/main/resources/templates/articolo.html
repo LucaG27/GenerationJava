@@ -1,0 +1,540 @@
+<div th:replace="header.html"></div>
+    <style>
+		 body {
+        background-image: url("https://wallpaperaccess.com/full/983286.jpg");
+        }
+        .textClr {
+            color: white;
+        }
+		.impExpDiv {
+			background-color: white;
+			width: fit-content;
+			height: fit-content;
+			padding: 1rem;
+		}
+      .modal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgb(0,0,0); /* Fallback color */
+        background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+        }
+        
+        /* Modal Content/Box */
+        .modal-content {
+        background-color: #fefefe;
+        margin: 15% auto; /* 15% from the top and centered */
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%; /* Could be more or less, depending on screen size */
+        }
+        
+        /* The Close Button */
+        .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+        }
+        
+        .close:hover,
+        .close:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+        }
+        
+        .centrale{
+        text-align: center;
+        justify-content: center;
+        }
+        
+        #mainBox{
+        background-color: white;
+        margin: auto;
+        width: 50%;
+        }
+        
+        #filtriDropdown {
+        padding-left: 25%;
+        }
+        
+        .dropdownInterni {
+        display: none;
+        padding-left: 25%;
+        }
+
+  	  	#catSearch {
+		    	width: 30%;
+	    	}
+        
+        .dInline {
+         display: inline;
+        }
+         
+        #catFilter {
+        width: 10%;
+        display: inline;
+        }
+        
+        #addBtnDiv {
+        float: right;
+        display: inline;
+        padding-right: 25%;
+        }
+        
+        .bottoniModale {
+        float: right;
+        display: inline;
+        }
+        
+        #divBtnModal {
+        border-left: 50%;
+        }
+    
+        #divImpExp {
+		padding: 5%;
+        float: right;
+        display: inline;
+        padding-right: 13%;
+        }
+        #divImpExp2 {
+        background-color: white;
+        }
+        .bottoniFiltro{
+        border: none;
+        background:none;
+        outline: none;
+        }
+      </style>
+</head>
+
+<body>
+
+  <h1 class="centrale textClr">ARTICOLI</h1>
+
+  <div id="mainBox">
+	<table class="table table-bordered" id="tabellaArticoli">
+	  <thead>
+		<tr>
+		  <th scope="col">ID</th> 
+		  <th scope="col">DESCRIZIONE</th>
+		  <th scope="col">PREZZO</th>
+		  <th scope="col">CATEGORIA</th>
+		  <th scope="col">RIMANENZA</th>
+		  <th scope="col">IMMAGINE</th>
+		  <th scope="col">AZIONI</th>
+		</tr>
+	  </thead>
+	  <tbody id="bodyTable">
+	  </tbody>
+	</table>
+  </div>
+
+      <!--Dropdown dei filtri-->
+	<div id="filtriDropdown" class="dropdown">
+	  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+		Filtra per
+	  </button>
+	  <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+		<li><button type="button" class="bottoniFiltro" onclick="openDesc()">Descrizione</button></li>
+		<li><button type="button" class="bottoniFiltro" onclick="openPrezzo()">Prezzo</button></li>
+		<li><button type="button" class="bottoniFiltro" onclick="openCat()">Categoria</button></li>
+    <li><button type="button" class="bottoniFiltro" onclick="closeAnyFilter(); getAll()">Nessun Filtro</button></li>
+	  </ul>
+	</div>
+  <br>
+
+    <!--Descrizione-->
+  <div class="form-popup dropdownInterni" id="desc">
+
+      <!--cerca per descrizione-->
+      <label for="descSearch">Cerca per descrizione:</label>
+      <input type="search" id="descSearch">
+      <button id="filterButtonDesc" onclick="closeDesc(); descFilter()">Cerca</button>
+      <!--Bottone Annulla-->
+      <button type="button" class="btn cancel" onclick="closeDesc()">Annulla</button>
+  </div>
+
+    <!--Prezzo-->
+  <div class="form-popup dropdownInterni" id="prezzo">
+
+      <!--filtra per prezzo-->
+      <label for="site-search">Filtra per prezzo:</label>
+      <div class="container dInline">
+        <label for="minSearch">Min</label>
+        <input id="minSearch" type="number" min="0" max="1000" step="1" placeholder="€0">
+        <label for="maxSearch">Max</label>
+        <input id="maxSearch" type="number" min="1" max="1000" step="1" placeholder="€10">
+      </div>
+      <button onclick="closePrezzo(); priceFilter()">Filtra</button>
+      <!--Bottone Annulla-->
+      <button type="button" class="btn cancel" onclick="closePrezzo()">Annulla</button>
+  </div>
+
+
+    <!--Categoria-->
+  <div class="form-popup  dropdownInterni" id="cat">
+
+      <!--filtra per categoria-->
+      <label class="dInline" for="site-search">Filtra per categoria:</label>
+      <div class="container dInline">
+        <select id="catSearch" class="form-select catFilter">
+          <option selected value="software">Software</option>
+          <option value="hardware">Hardware</option>
+        </select>
+      </div>
+      <button onclick="closeCat(); catFilter()">Filtra</button>
+      <!--Bottone Annulla-->
+      <button type="button" class="btn cancel" onclick="closeCat()">Annulla</button>
+  </div>
+
+
+	<!-- Aggiungi Button-->
+  <div id="addBtnDiv">
+    <button id="openAdd" class="btn btn-success" onclick="openAdd()">Aggiungi Articolo</button>
+  </div>
+
+	<!--Import/Export-->
+	<div id="divImpExp">
+		<div id="divImpExp2" class="impExpDiv">
+			<form action="/import" name="importCSV" method="post" enctype="multipart/form-data">
+
+			Import Articolo CSV: <input type="file" name="fileCSV" accept=".csv" />
+			<input type="submit" value="Aggiungi">
+			</form>
+			<a href="/export">Export Lista CSV</a>
+		</div>
+	</div>
+
+  <!--Body - Modal Aggiungi-->
+  <div id="modalAdd" class="modal">
+    <!-- Modal content -->
+    <div class="modal-content">
+      <!--Titolo modal-->
+      <h1 class="centrale">Aggiungi Articolo</h1>
+      <!--Descrizione-->
+      <label for="newDesc">Descrizione:</label>
+      <input id="newDesc" type="textarea" placeholder="Descrizione dell'articolo">
+      <!--Prezzo-->
+      <label for="newPrezzo">Prezzo:</label>
+      <input id="newPrezzo" type="number" placeholder="€10.50">
+      <!--Categoria-->
+      <label for="newCategoria">Categoria:</label>
+      <select id="newCategoria" style="width: 20%;" class="form-select">
+        <option selected value="software">Software</option>
+        <option value="hardware">Hardware</option>
+      </select>
+      <!--Rimanenza-->
+      <label for="newRimanenza">Rimanenza:</label>
+      <input id="newRimanenza" type="number" placeholder="150">
+      <!--Immagine-->
+      <label for="newImmagine"><b>Immagine</b></label>
+      <input id="newImmagine" type="file" accept="image/png, image/jpeg">
+
+      <!--Bottoni Aggiungi/Annulla-->
+      <div id="divBtnModal">
+      <button id="closeAdd" class="btn btn-danger bottoniModale" onclick="closeAdd()">Annulla</button>
+      <button id="add" class="btn btn-success bottoniModale" onclick="createArticolo(); closeAdd()">Aggiungi</button>
+      </div>
+    </div>
+  </div>
+
+   <!--Body - Modal Modifica-->
+   <div id="modalMod" class="modal">
+    <!-- Modal content -->
+    <div class="modal-content">
+      <!--Titolo modal-->
+      <h1 class="centrale">Modifica Articolo</h1>
+      <!-- ID -->
+      <input id="updateId" type="hidden">
+      <!--Descrizione-->
+      <label for="updateDesc">Descrizione:</label>
+      <input id="updateDesc" type="textarea" placeholder="">
+      <!--Prezzo-->
+      <label for="updatePrezzo">Prezzo:</label>
+      <input id="updatePrezzo" type="number" placeholder="">
+      <!--Categoria-->
+      <label for="updateCategoria">Categoria:</label>
+      <select id="updateCategoria" style="width: 20%;" class="form-select">
+        <option selected value="software">Software</option>
+        <option value="hardware">Hardware</option>
+      </select>
+      <!--Rimanenza-->
+      <label for="updateRimanenza">Rimanenza:</label>
+      <input id="updateRimanenza" type="number" placeholder="">
+      <!--Immagine-->
+      <label for="updateImmagine"><b>Immagine</b></label>
+      <input id="updateImmagine" type="file" accept="image/png, image/jpeg">
+
+      <!--Bottoni Modifica/Annulla-->
+      <div id="divBtnModal">
+      <button id="closeAdd" class="btn btn-danger bottoniModale" onclick="closeMod()">Annulla</button>
+      <button id="updateBtn" class="btn btn-success bottoniModale" onclick="updateArticolo(); closeMod()">Modifica</button>
+      </div>
+    </div>
+  </div>
+
+	
+    <!-- js per aprire e chiudere le varie scelte del dropdown-->
+<script>
+	
+	getAll();
+	
+	function openDesc() {
+	    document.getElementById("desc").style.display = "block";
+	    document.getElementById("prezzo").style.display = "none";
+	    document.getElementById("cat").style.display = "none";
+	  }
+	  
+	function closeDesc() {
+	  document.getElementById("desc").style.display = "none";
+	}
+	
+	function openPrezzo() {
+	  document.getElementById("prezzo").style.display = "block";
+	  document.getElementById("desc").style.display = "none";
+	  document.getElementById("cat").style.display = "none";
+	}
+	
+	function closePrezzo() {
+	  document.getElementById("prezzo").style.display = "none";
+	}
+	
+	function openCat() {
+	  document.getElementById("cat").style.display = "block";
+	  document.getElementById("desc").style.display = "none";
+	  document.getElementById("prezzo").style.display = "none";
+	}
+	
+	function closeCat() {
+	  document.getElementById("cat").style.display = "none";
+	}
+	 
+	function closeAnyFilter(){
+	  document.getElementById("desc").style.display = "none";
+	  document.getElementById("prezzo").style.display = "none";
+	  document.getElementById("cat").style.display = "none";
+	 }
+	
+	
+	 //Modal per aggiungi articolo
+	
+	// Get the modal
+	var modal = document.getElementById("modalAdd");
+
+	var modalMod = document.getElementById("modalMod");
+	
+	// Get the button that opens the modal
+	var btn = document.getElementById("openAdd");
+	
+	// Get the <span> element that closes the modal
+	var span = document.getElementById("closeAdd");
+	
+	// When the user clicks on the button, open the modal
+	btn.onclick = function() {
+	  modal.style.display = "block";
+	}
+	
+	// When the user clicks on <span> (x), close the modal
+	span.onclick = function() {
+	  modal.style.display = "none";
+	}
+
+	function openAdd() {
+		document.getElementById("modalAdd").style.display = "block";
+	}
+
+	function openMod() {
+		document.getElementById("modalMod").style.display = "block";
+	}
+
+	function closeAdd() {
+		document.getElementById("modalAdd").style.display = "none";
+	}
+
+	function closeMod() {
+		document.getElementById("modalMod").style.display = "none";
+	}
+	
+	// When the user clicks anywhere outside of the modal, close it
+	window.onclick = function(event) {
+	  if (event.target == modal) {
+	    modal.style.display = "none";
+	  }
+	}
+
+	window.onclick = function(event) {
+	  if (event.target == modalMod) {
+	    modalMod.style.display = "none";
+	  }
+	}
+	
+	//BACK-END JS
+
+	function filtering(newUrl){
+		
+		fetch(newUrl)
+			.then(response => response.json())
+			.then(articoli => {
+				
+				let body = document.getElementById("bodyTable");
+				body.innerHTML = "";
+				
+				let output = "";
+				let immagine = "";
+				
+	            for (const a of articoli) {
+	            	
+	            	if(a.immagine==null || a.immagine==""){
+                        immagine = "Non disponibile";
+                    } else {
+                    	immagine = a.immagine;
+                    }
+
+	                output +=
+	            		'<tr>'+
+	            '<td>'+ a.id +'</td>'+
+	            '<td>'+ a.descrizione +'</td>'+
+	            '<td>'+ a.prezzo +'</td>'+
+	            '<td>'+ a.categoria +'</td>'+
+	            '<td>'+ a.rimanenza +'</td>'+
+	            '<td>'+ immagine +'</td>'+
+	            '<td><button class="btn btn-primary" onclick="getArticolo(' + a.id + '); openMod()">Modifica</button>'+
+				'<button class="btn btn-danger" onclick="deleteArticolo(' + a.id + ')">Cancella</button></td>' +
+	            '</tr>';
+	            
+	            }
+	            
+	            body.innerHTML += output;
+
+			})
+	}
+	
+	function createArticolo(){
+		
+		let newArticolo = {
+				"descrizione" : document.getElementById("newDesc").value,
+				"prezzo" : document.getElementById("newPrezzo").value,
+				"categoria" : document.getElementById("newCategoria").value,
+				"rimanenza" : document.getElementById("newRimanenza").value,
+				"immagine" : document.getElementById("newImmagine").value
+			}
+		
+		insertArticolo(newArticolo);
+	}
+	
+	function insertArticolo(newArticolo){
+		
+		const URL = "api/articolo/insert";
+		
+		fetch(URL, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(newArticolo)
+		})
+			.then(response => response.json())
+			.then(articolo => {
+				console.log(articolo);
+				//alert("Articolo numero " + articolo.id + ": " + articolo.descrizione + " inserito correttamente.")
+				getAll();
+			})
+		
+		window.location.reload();
+		
+	}
+	
+	function getArticolo(id) {
+		
+		const url = "/api/articolo/update/";
+		
+		document.getElementById("updateId").value = "";
+		document.getElementById("updateDesc").value = "";
+		document.getElementById("updatePrezzo").value = "";
+		document.getElementById("updateCategoria").value = "";
+		document.getElementById("updateRimanenza").value = "";
+		document.getElementById("updateImmagine").value = "";
+		
+		fetch(url + id)
+			.then(response => response.json())
+			.then(articolo => {
+				
+				document.getElementById("updateId").value = articolo.id;
+				document.getElementById("updateDesc").value = articolo.descrizione;
+				document.getElementById("updatePrezzo").value = articolo.prezzo;
+				document.getElementById("updateCategoria").value = articolo.categoria;
+				document.getElementById("updateRimanenza").value = articolo.rimanenza;
+				document.getElementById("updateImmagine").value = articolo.immagine;
+				
+			})
+		
+	}
+	
+	function updateArticolo(){
+		
+		let setArticolo = {
+				"id" : document.getElementById("updateId").value,
+				"descrizione" : document.getElementById("updateDesc").value,
+				"prezzo" : document.getElementById("updatePrezzo").value,
+				"categoria" : document.getElementById("updateCategoria").value,
+				"rimanenza" : document.getElementById("updateRimanenza").value,
+				"immagine" : document.getElementById("updateImmagine").value
+			}
+		
+		insertArticolo(setArticolo);
+		
+	}
+	
+	function deleteArticolo(id){
+		
+		const URL = "api/articolo/delete/";
+		
+		fetch(URL + id, {
+			method: 'DELETE'
+		})
+		
+		window.location.reload();
+		
+	}
+	
+	function descFilter(){
+		let desc = document.getElementById("descSearch").value;
+		const URL = "/api/articolo/forDesc/";
+		
+		let newUrl = URL + desc;
+		
+		filtering(newUrl);
+	}
+	
+	function priceFilter(){
+		let pr1 = document.getElementById("minSearch").value;
+		let pr2 = document.getElementById("maxSearch").value;
+		const URL = "/api/articolo/forPrezzo/";
+		
+		let newUrl = URL + pr1 + "/" + pr2;
+		
+		filtering(newUrl);
+	}
+	
+	function catFilter(){
+		let cat = document.getElementById("catSearch").value;
+		const URL = "/api/articolo/forCat/";
+		
+		let newUrl = URL + cat;
+		
+		filtering(newUrl);
+	}
+	
+	function getAll(){
+		filtering("/api/articolo/allArticoli");
+	}
+
+</script>
+<div th:replace="footer.html"></div>

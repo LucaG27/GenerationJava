@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+
+<select id="selectRegioni" th:field="*{regione}">
+  <option th:each="reg : ${solo-regioni}" th:value="${reg.regione}" th:text="${regione:regione}"/>
+
+</select>
+
+
+</body>
+</html>

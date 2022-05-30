@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+
+<table id="tabellaRegioni" th:if="${regioni} != null">
+  <tr>
+    <th>ID</th>
+    <th>Regione</th>
+    <th>Provincia</th>
+    <th>Maschi</th>
+    <th>Femmine</th>
+    <th>Totale</th>
+  </tr>
+  <tr th:each="reg : ${regioni}">
+    <td th:text="${reg.id}"> </td>
+    <td th:text="${reg.regione}"></td>
+    <td th:text="${reg.comune}"></td>
+    <td th:text="${reg.maschi}"></td>
+    <td th:text="${reg.femmine}"></td>
+    <td th:text="${reg.totale}"></td>
+  </tr>
+</table>
+
+
+</body>
+</html>

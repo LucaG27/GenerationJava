@@ -1,0 +1,111 @@
+<div th:replace="header.html"></div>
+
+
+<div class="container">
+
+	<h1 class="text-center mb-5 mt-5">LISTA ORDINI</h1>
+
+    <table class="table" id="tabellaClienti">
+      <thead>
+        <tr>
+          <th scope="col">ID</th> 
+          <th scope="col">CLIENTE</th>
+          <th scope="col">DATA</th>
+          <th scope="col">CONSEGNA</th>
+          <th scope="col">TOTALE</th>
+          <th scope="col">DETTAGLI</th>
+        </tr>
+      </thead>
+      <tbody id="tableBody">
+       </tbody>
+    </table>
+
+	<div id="viewArticoli">
+	</div>
+
+	
+
+
+<script src="../js/clienti.js"></script>
+
+<script>
+
+	getOrdini();
+
+	function getOrdini(){
+		fetch("/api/ordini/allOrdiniImpiegato")
+		.then(response => response.json())
+		.then(ordini => {
+			console.log(ordini);
+			
+			let body = document.getElementById("tableBody");
+			let output = "";
+			
+			for(const o of ordini){
+				
+				output +=
+            		'<tr>'+
+            '<td>'+ o.ordine.id +'</td>'+
+            '<td>'+ o.ordine.cliente.cognome + " " + o.ordine.cliente.nome +'</td>'+
+            '<td>'+ o.ordine.data +'</td>'+
+            '<td>'+ o.ordine.consegna +'</td>'+
+            '<td>'+ o.tot +'</td>'+
+            '<td><button onclick="viewProdotti(' + o.ordine.id + ')">Visualizza dettagli</button></td>'
+            '</tr>';
+				
+			}
+			
+			body.innerHTML += output;
+			
+		})
+	}
+	
+	function viewProdotti(id){
+		
+		let div = document.getElementById("viewArticoli");
+		let output = "";
+		
+		let ordine = {"id" : id}
+		let ordine2 = getOrdine(id);
+		console.log(ordine2);
+		
+		fetch("/api/ordini/viewProdotti",
+				{
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json'
+				},
+				body: JSON.stringify(ordine)
+			})
+			.then(response => response.json())
+			.then(prodotti => {
+				console.log(prodotti);
+				
+				output = '<button onclick="closeViewProdotti()">Chiudi</button><ul>';
+				
+				for (const p of prodotti){
+					
+					if(p.quantita == 1) output += '<li>' + p.articolo.descrizione + ' : ' + p.quantita + ' pezzo acquistato.</li>';
+					else output += '<li>' + p.articolo.descrizione + ' : ' + p.quantita + ' pezzi acquistati.</li>';
+				}
+				
+				output+='</ul>'
+				
+				div.innerHTML = output;
+				
+			})
+	}
+	
+	function closeViewProdotti(){
+		document.getElementById("viewArticoli").innerHTML = "";
+	}
+	
+	async function getOrdine(id){
+		let url = "/api/ordine/getOrdine/" + id;
+		let ordine = await fetch(url).then(response => response.json());
+		return ordine;
+	}
+
+</script>
+ 
+<div th:replace="footer.html"></div>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+
+
+<table id="tabellaAnimeManga" th:if="${animeManga} != null">
+  <tr>
+    <!-- <th>ID</th>-->
+    <th>Title</th>
+    <th>Author</th>
+    <th>Year</th>
+    <th>Rating</th>
+    <th>Episodes</th>
+    <th>Images</th>
+    <th>Trailer</th>
+    <th>Link</th>
+    <th>Synopsis</th>
+  </tr>
+  <tr th:each="am : ${animeManga}">
+    <!-- <td th:text="${am.id}"> </td>	 -->
+    <td th:text="${am.title}"></td>
+    <td th:text="${am.author}"></td>
+    <td th:text="${am.year}"></td>
+    <td th:text="${am.rating}"></td>
+    <td th:text="${am.episodes}"></td>
+    <td th:text="${am.images}"></td>
+    <td th:text="${am.trailer}"></td>
+    <td th:text="${am.link}"></td>
+    <td th:text="${am.synopsis}"></td>
+  </tr>
+</table>
+</body>
+</html>

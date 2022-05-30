@@ -1,0 +1,14 @@
+<div th:replace="header" />
+
+	<h1 th:text="${titolo}"></h1>
+	
+	<h2 th:text="${provincia.regione}"></h2>
+	
+	<div id="grafico">
+		<div  th:text="${provincia.maschi}" id="maschi"></div>
+		<div  th:text="${provincia.femmine}" id="femmine"></div>
+	
+	</div>
+	
+
+<div th:replace="footer" />

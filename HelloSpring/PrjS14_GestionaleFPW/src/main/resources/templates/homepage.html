@@ -1,0 +1,45 @@
+<div th:replace="header.html"></div>
+<style>
+    body {
+        background-image: url("https://wallpaperaccess.com/full/983286.jpg");
+        }
+        .textClr {
+            color: white;
+        }
+</style>
+<body>
+
+    <br>
+    <br>
+    <div id="divTitleHp"></div>
+    <h1 id="titleHp" class="centrale textClr"></h1>
+	
+    <div id="bottoni" class="centrale">
+        <button onclick="window.location.href='/lista-articoli'" class="d-inline p-2 bg-primary text-white">Vai alla sezione articoli</button>
+        <button onclick="window.location.href='/lista-ordini'" class="d-inline p-2 bg-dark text-white">Vai alla sezione ordini</button>
+        <button id="clienti" onclick="window.location.href='/clienti'" class="d-inline p-2 bg-primary text-white">Vai alla sezione clienti</button>
+        <button id="impiegati" onclick="window.location.href='/lista-impiegati'" class="d-inline p-2 bg-dark text-white">Vai alla sezione impiegati</button>
+        <button id="logout" onclick="window.location.href='/logout'" class="d-inline p-2 bg-primary text-white">Logout</button>
+    </div>
+    
+    <script>
+    
+    controlUser();
+    
+    function controlUser(){
+    	fetch("/api/login/control")
+    		.then(response => response.json())
+    		.then(utente => {
+    			if(utente.ruolo == "cliente"){
+    				document.getElementById("impiegati").remove();
+    				document.getElementById("clienti").textContent = "Vai al tuo profilo utente";
+    				document.getElementById("clienti").classList = "d-inline p-2 bg-primary text-white";
+    				document.getElementById("logout").classList = "d-inline p-2 bg-dark text-white";
+    			}
+    			document.getElementById("titleHp").textContent = "Benvenuto/a " + utente.nome + ".";
+    		})
+    }
+    
+    </script>
+
+<div th:replace="footer.html"></div>

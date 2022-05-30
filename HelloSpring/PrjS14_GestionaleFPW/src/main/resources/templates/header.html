@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="it">
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
+    <title>Gestionale</title>
+    <style>
+      .modal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgb(0,0,0); /* Fallback color */
+        background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+        }
+        
+        /* Modal Content/Box */
+        .modal-content {
+        background-color: #fefefe;
+        margin: 15% auto; /* 15% from the top and centered */
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%; /* Could be more or less, depending on screen size */
+        }
+        
+        /* The Close Button */
+        .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+        }
+        
+        .close:hover,
+        .close:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+        }
+        
+        .centrale{
+        text-align: center;
+        justify-content: center;
+        }
+        
+        #mainBox{
+        background-color: white;
+        margin: auto;
+        width: 50%;
+        }
+        
+        #filtriDropdown {
+        padding-left: 25%;
+        }
+        
+        .dropdownInterni {
+        display: none;
+        padding-left: 25%;
+        }
+        
+        .dInline {
+         display: inline;
+        }
+         
+        #catFilter {
+        width: 10%;
+        display: inline;
+        }
+        
+        #addBtnDiv {
+        float: right;
+        display: inline;
+        padding-right: 25%;
+        }
+        
+        .bottoniModale {
+        float: right;
+        display: inline;
+        }
+        
+        #divBtnModal {
+        border-left: 50%;
+        }
+    
+        #divImpExp {
+        float: right;
+        display: inline;
+        padding-right: 13%;
+        }
+        #divImpExp2 {
+        background-color: white;
+        }
+        .bottoniFiltro{
+        border: none;
+        background:none;
+        outline: none;
+        }
+      </style>
+</head>
+
+<nav class="navbar navbar-expand-sm   navbar-light bg-light">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+      <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+        <li class="nav-item">
+          <a class="nav-link" href="/login-page">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/lista-articoli">Articoli</a>
+        </li>
+        <li class="nav-item">
+        <a class="nav-link" href="/lista-ordini">Ordini</a>
+        </li>
+        <li class="nav-item">
+            <a id="navCliente" class="nav-link" href="/clienti">Clienti</a>
+          </li>
+        <li id="navImpiegati" class="nav-item">
+            <a class="nav-link" href="/lista-impiegati">Impiegati</a>
+        </li>
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link" href='/logout'>Logout</a>
+          </li>
+        </ul>
+      </ul>
+    </div>
+  </nav>

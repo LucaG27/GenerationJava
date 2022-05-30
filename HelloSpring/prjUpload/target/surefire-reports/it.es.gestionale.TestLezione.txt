@@ -1,0 +1,34 @@
+-------------------------------------------------------------------------------
+Test set: it.es.gestionale.TestLezione
+-------------------------------------------------------------------------------
+Tests run: 2, Failures: 0, Errors: 2, Skipped: 0, Time elapsed: 5.515 s <<< FAILURE! - in it.es.gestionale.TestLezione
+tuttiGliUfficiHannoAlmenoUnDipendente  Time elapsed: 0.003 s  <<< ERROR!
+java.lang.IllegalStateException: Failed to load ApplicationContext
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [org/springframework/boot/autoconfigure/orm/jpa/HibernateJpaConfiguration.class]: Invocation of init method failed; nested exception is javax.persistence.PersistenceException: [PersistenceUnit: default] Unable to build Hibernate SessionFactory; nested exception is org.hibernate.MappingException: Could not get constructor for org.hibernate.persister.entity.SingleTableEntityPersister
+Caused by: javax.persistence.PersistenceException: [PersistenceUnit: default] Unable to build Hibernate SessionFactory; nested exception is org.hibernate.MappingException: Could not get constructor for org.hibernate.persister.entity.SingleTableEntityPersister
+Caused by: org.hibernate.MappingException: Could not get constructor for org.hibernate.persister.entity.SingleTableEntityPersister
+Caused by: org.hibernate.InstantiationException: could not instantiate test object : it.es.gestionale.model.ArticoloEntity
+Caused by: java.lang.reflect.InvocationTargetException
+Caused by: java.lang.Error: 
+Unresolved compilation problems: 
+	CsvBindByName cannot be resolved to a type
+	CsvBindByName cannot be resolved to a type
+	CsvBindByName cannot be resolved to a type
+	CsvBindByName cannot be resolved to a type
+
+
+contextLoads  Time elapsed: 0 s  <<< ERROR!
+java.lang.IllegalStateException: Failed to load ApplicationContext
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [org/springframework/boot/autoconfigure/orm/jpa/HibernateJpaConfiguration.class]: Invocation of init method failed; nested exception is javax.persistence.PersistenceException: [PersistenceUnit: default] Unable to build Hibernate SessionFactory; nested exception is org.hibernate.MappingException: Could not get constructor for org.hibernate.persister.entity.SingleTableEntityPersister
+Caused by: javax.persistence.PersistenceException: [PersistenceUnit: default] Unable to build Hibernate SessionFactory; nested exception is org.hibernate.MappingException: Could not get constructor for org.hibernate.persister.entity.SingleTableEntityPersister
+Caused by: org.hibernate.MappingException: Could not get constructor for org.hibernate.persister.entity.SingleTableEntityPersister
+Caused by: org.hibernate.InstantiationException: could not instantiate test object : it.es.gestionale.model.ArticoloEntity
+Caused by: java.lang.reflect.InvocationTargetException
+Caused by: java.lang.Error: 
+Unresolved compilation problems: 
+	CsvBindByName cannot be resolved to a type
+	CsvBindByName cannot be resolved to a type
+	CsvBindByName cannot be resolved to a type
+	CsvBindByName cannot be resolved to a type
+
+

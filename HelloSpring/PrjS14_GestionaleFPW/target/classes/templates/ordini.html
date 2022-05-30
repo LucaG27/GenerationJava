@@ -1,0 +1,79 @@
+<div th:replace="header.html"></div>
+<link rel="stylesheet" href="../css/style-ordini.css">
+
+
+<div class="container">
+
+	<h1 class="text-center mb-5 mt-5 textClr">LISTA ORDINI</h1>
+
+    <table class="table sfondoTab" id="tabellaClienti">
+      <thead>
+        <tr>
+          <th scope="col">ID</th> 
+          <th scope="col">CLIENTE</th>
+          <th scope="col">IMPIEGATO</th>
+          <th scope="col">DATA</th>
+          <th scope="col">CONSEGNA</th>
+          <th scope="col">TOTALE</th>
+        </tr>
+      </thead>
+      <tbody id="tableBody">
+       </tbody>
+    </table>
+  
+
+</div>
+
+<!--Import/Export-->
+	<div id="divImpExp">
+	    <div id="divImpExp2">
+	        <!--Import - Export-->
+	        <!--Import-->
+	        <form action="/importOrdini" name="importCSV" method="post"
+	            enctype="multipart/form-data">
+	
+	            Import Ordine CSV: <input type="file" name="fileCSV" accept=".csv" />
+	            <input type="submit" value="Aggiungi">
+	        </form>
+	        <a href="/exportOrdini">Export Lista CSV</a>
+	    </div>
+	</div>
+ 
+
+<script src="../js/clienti.js"></script>
+
+<script>
+
+	getOrdini();
+
+	function getOrdini(){
+		fetch("/api/ordini/allOrdini")
+		.then(response => response.json())
+		.then(ordini => {
+			console.log(ordini);
+			
+			let body = document.getElementById("tableBody");
+			let output = "";
+			
+			for(const o of ordini){
+				
+				output +=
+            		'<tr>'+
+            '<td>'+ o.ordine.id +'</td>'+
+            '<td>'+ o.ordine.cliente.cognome + " " + o.ordine.cliente.nome +'</td>'+
+            '<td>'+ o.ordine.impiegato.cognome + " " + o.ordine.impiegato.nome +'</td>'+
+            '<td>'+ o.ordine.data +'</td>'+
+            '<td>'+ o.ordine.consegna +'</td>'+
+            '<td>'+ o.tot +'</td>'+
+            '</tr>';
+				
+			}
+			
+			body.innerHTML += output;
+			
+		})
+	}
+
+</script>
+ 
+<div th:replace="footer.html"></div>

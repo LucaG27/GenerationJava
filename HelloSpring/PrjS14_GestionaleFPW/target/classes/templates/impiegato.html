@@ -1,0 +1,610 @@
+ <div th:replace="header.html"></div>
+
+<style>
+		body {
+			background-image: url("https://wallpaperaccess.com/full/983286.jpg");
+		}
+		.textClr {
+			color: white;
+		}
+		.sfondoTab {
+			background-color: white;
+		}
+	.modal {
+		display: none;
+		position: fixed; /* Stay in place */
+		z-index: 1; /* Sit on top */
+		left: 0;
+		top: 0;
+		width: 100%; /* Full width */
+		height: 100%; /* Full height */
+		overflow: auto; /* Enable scroll if needed */
+		background-color: rgb(0,0,0); /* Fallback color */
+		background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+	  }
+	  
+	  /* Modal Content/Box */
+	  .modal-content {
+		background-color: #fefefe;
+		margin: 15% auto; /* 15% from the top and centered */
+		padding: 20px;
+		border: 1px solid #888;
+		width: 80%; /* Could be more or less, depending on screen size */
+	  }
+	  
+	  /* The Close Button */
+	  .close {
+		color: #aaa;
+		float: right;
+		font-size: 28px;
+		font-weight: bold;
+	  }
+	  
+	  .close:hover,
+	  .close:focus {
+		color: black;
+		text-decoration: none;
+		cursor: pointer;
+	  }
+	  
+	  .centrale{
+		text-align: center;
+		justify-content: center;
+	  }
+	  
+	  #mainBox{
+		background-color: white; margin: auto; width: 50%;
+	  }
+	  
+	  #filtriDropdown {
+		padding-left: 25%;
+	  }
+	  
+	  .dropdownInterni {
+		display: none;
+		padding-left: 25%;
+	  }
+	  
+		#catSearch {
+		    width: 30%;
+		}
+
+		.ruoloSearchBar {
+			width: 30%;
+		}
+
+	  .dInline {
+	   display: inline;
+	  }
+	   
+	  #catFilter {
+		width: 10%;
+		display: inline;
+	  }
+	  
+	  #addBtnDiv {
+		float: right;
+		display: inline;
+		padding-right: 25%;
+	  }
+	  
+	  .bottoniModale {
+		float: right;
+		display: inline;
+	  }
+	  
+	  #divBtnModal {
+		border-left: 50%;
+	  }
+
+	  #divImpExp {
+		display: inline;
+		background-color: white;
+		position: relative;
+		margin-bottom: 90%;
+	  }
+	  #divImpExp2 {
+		position: absolute;
+		margin-right:1%;
+		margin-left: 76%;
+		background-color: white;
+	  }
+	  #btnImporta1 {
+		  width: 50%;
+	  }
+	  #btnImport2 {
+		  width: 50%;
+	  }
+	  .bottoniFiltro{
+        border: none;
+        background:none;
+        outline: none;
+        }
+</style>
+<body>
+
+  <h1 class="centrale textClr">IMPIEGATI</h1>
+
+    <div id="mainBox">
+        <table class="table table-bordered sfondoTab" id="tabellaImpiegati">
+          <thead>
+            <tr>
+              <th scope="col">ID</th> 
+              <th scope="col">NOME</th>
+              <th scope="col">COGNOME</th>
+              <th scope="col">RUOLO</th>
+              <th scope="col">DIRIGENTE</th>
+              <th scope="col">STIPENDIO</th>
+              <th scope="col">UFFICIO</th>
+              <th scope="col">AZIONI</th>
+            </tr>
+          </thead>
+          <tbody id="bodyTable">
+          </tbody>
+        </table>
+      </div>
+
+      <!--Dropdown dei filtri-->
+	<div id="filtriDropdown" class="dropdown">
+	  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+		Filtra per
+	  </button>
+	  <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+		<li><button type="button" class="bottoniFiltro" onclick="openNome()">Nome</button></li>
+        <li><button type="button" class="bottoniFiltro" onclick="openCognome()">Cognome</button></li>
+        <li><button type="button" class="bottoniFiltro" onclick="openRuolo()">Ruolo</button></li>
+		<li><button type="button" class="bottoniFiltro" onclick="openStipendio()">Stipendio</button></li>
+    <li><button type="button" class="bottoniFiltro" onclick="closeAnyFilter(); getAll()">Nessun Filtro</button></li>
+	  </ul>
+	</div>
+  <br>
+
+    <!--Nome-->
+  <div class="form-popup dropdownInterni" id="nome">
+
+      <!--cerca per cognome-->
+      <label for="nomeSearch">Cerca per nome:</label>
+      <input type="search" id="nomeSearch">
+      <button id="filterButtonDesc" onclick="closeNome(); nomeFilter()">Cerca</button>
+      <!--Bottone Annulla-->
+      <button type="button" class="btn cancel" onclick="closeNome()">Annulla</button>
+  </div>
+
+    <!--Cognome-->
+    <div class="form-popup dropdownInterni" id="cognome">
+
+        <!--cerca per cognome-->
+        <label for="cognomeSearch">Cerca per cognome:</label>
+        <input type="search" id="cognomeSearch">
+        <button id="filterButtonDesc" onclick="closeCognome(); cognomeFilter()">Cerca</button>
+        <!--Bottone Annulla-->
+        <button type="button" class="btn cancel" onclick="closeCognome()">Annulla</button>
+    </div>
+
+
+    <!--Ruolo-->
+  <div class="form-popup  dropdownInterni" id="ruolo">
+
+    <!--filtra per ruolo-->
+    <label class="dInline" for="site-search">Filtra per ruolo:</label>
+    <div class="container dInline">
+      <select id="ruoloSearch" class="form-select ruoloSearchBar">
+        <option selected value="logistica">Tecnico</option>
+        <option value="amministrazione">Amministraivo</option>
+        <option value="vendita">Venditore</option>
+      </select>
+    </div>
+    <button onclick="closeRuolo(); ruoloFilter()">Filtra</button>
+    <!--Bottone Annulla-->
+    <button type="button" class="btn cancel" onclick="closeRuolo()">Annulla</button>
+</div>
+
+
+    <!--Stipendio-->
+  <div class="form-popup dropdownInterni" id="stipendio">
+
+      <!--filtra per prezzo-->
+      <label for="site-search">Filtra per stipendio:</label>
+      <div class="container dInline">
+        <label for="minSearch">Min</label>
+        <input id="minSearch" type="number" min="0" max="1000" step="1" placeholder="€0">
+        <label for="maxSearch">Max</label>
+        <input id="maxSearch" type="number" min="1" max="1000" step="1" placeholder="€10">
+      </div>
+      <button onclick="closeStipendio(); stipendioFilter()">Filtra</button>
+      <!--Bottone Annulla-->
+      <button type="button" class="btn cancel" onclick="closeStipendio()">Annulla</button>
+  </div>
+
+
+  <!-- Aggiungi Button-->
+  <div id="addBtnDiv">
+    <button id="openAdd" class="btn btn-success" onclick="openAdd()">Aggiungi Impiegato</button>
+  </div>
+
+  <!--Body - Modal Aggiungi-->
+  <div id="modalAdd" class="modal">
+    <!-- Modal content -->
+    <div class="modal-content">
+      <!--Titolo modal-->
+      <h1 class="centrale">Aggiungi Impiegato</h1>
+      <!--Nome-->
+      <label for="newNome">Nome:</label>
+      <input id="newNome" type="textarea" placeholder="Nome dell'impiegato">
+      <!--Cognome-->
+      <label for="newCognome">Cognome:</label>
+      <input id="newCognome" type="textarea" placeholder="Cogome dell'impiegato">
+      <!--Stipendio-->
+      <label for="newStipendio">Stipendio:</label>
+      <input id="newStipendio" type="number" placeholder="Stipendio dell'impiegato">
+      <!--Ruolo-->
+      <label for="newRuolo">Ruolo:</label>
+      <select id="newRuolo" style="width: 20%;" class="form-select">
+        <option selected value="tecnico">Tecnico</option>
+        <option value="amministrativo">Amministrativo</option>
+        <option value="venditore">Venditore</option>
+      </select>
+      <!--Riferimento a-->
+      <label for="newRif">Fa riferimento a:</label>
+      <input id="newRif" type="number" placeholder="ID di riferimento">
+      <!--Ufficio-->
+      <label for="newUfficio">Ufficio:</label>
+      <select id="newUfficio"></select>
+
+      <!--Bottoni Aggiungi/Annulla-->
+      <div id="divBtnModal">
+      <button id="closeAdd" class="btn btn-danger bottoniModale" onclick="closeAdd()">Annulla</button>
+      <button id="add" class="btn btn-success bottoniModale" onclick="createImpiegato(); closeAdd()">Aggiungi</button>
+      </div>
+    </div>
+  </div>
+
+    <!--Body - Modal Modifica-->
+  <div id="modalMod" class="modal">
+    <!-- Modal content -->
+    <div class="modal-content">
+      <!--Titolo modal-->
+      <h1 class="centrale">Modifica Impiegato</h1>
+      <!--Nome-->
+      <label for="updateNome">Nome:</label>
+      <input id="updateNome" type="text" placeholder="Nome dell'impiegato">
+      <!--Cognome-->
+      <label for="updateCognome">Cognome:</label>
+      <input id="updateCognome" type="text" placeholder="Cognome dell'impiegato">
+      <!--Stipendio-->
+      <label for="updateStipendio">Stipendio:</label>
+      <input id="updateStipendio" type="number" placeholder="Stipendio dell'impiegato">
+      <!--Ruolo-->
+      <label for="updateRuolo">Ruolo:</label>
+      <select id="updateRuolo" style="width: 20%;" class="form-select">
+        <option selected value="tecnico">Tecnico</option>
+        <option value="amministrativo">Amministrativo</option>
+        <option value="venditore">Venditore</option>
+      </select>
+      <!--Riferimento a-->
+      <label for="updateRif">Fa riferimento a:</label>
+      <input id="updateRif" type="number" placeholder="ID di riferimento">
+		<!--Ufficio-->
+      <label for="updateUfficio">Ufficio:</label>
+      <select id="updateUfficio"></select>
+
+      <!--Bottoni Aggiungi/Annulla-->
+      <div id="divBtnModal">
+      <button id="spanMod" class="btn btn-danger bottoniModale">Annulla</button>
+      <button id="add" class="btn btn-success bottoniModale" onclick="createImpiegato(); closeMod()">Aggiungi</button>
+      </div>
+    </div>
+  </div>
+
+	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" ></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js" integrity="sha384-Atwg2Pkwv9vp0ygtn1JAojH0nYbwNJLPhwyoVbhoPwBhjQPR5VtM2+xf0Uwh9KtT" crossorigin="anonymous"></script>
+
+<script>
+	
+	getAll();
+	setUffici();
+	
+	function openNome() {
+	    document.getElementById("nome").style.display = "block";
+        document.getElementById("cognome").style.display = "none";
+	    document.getElementById("stipendio").style.display = "none";
+	    document.getElementById("ruolo").style.display = "none";
+	  }
+	  
+	function closeNome() {
+	  document.getElementById("nome").style.display = "none";
+	}
+
+    function openCognome() {
+	    document.getElementById("nome").style.display = "none";
+        document.getElementById("cognome").style.display = "block";
+	    document.getElementById("stipendio").style.display = "none";
+	    document.getElementById("ruolo").style.display = "none";
+	  }
+	  
+	function closeCognome() {
+	  document.getElementById("cognome").style.display = "block";
+	}
+	
+	function openStipendio() {
+        document.getElementById("nome").style.display = "none";
+        document.getElementById("cognome").style.display = "none";
+	    document.getElementById("stipendio").style.display = "block";
+	    document.getElementById("ruolo").style.display = "none";
+	}
+	
+	function closeStipendio() {
+	  document.getElementById("stipendio").style.display = "none";
+	}
+	
+	function openRuolo() {
+        document.getElementById("nome").style.display = "none";
+        document.getElementById("cognome").style.display = "none";
+	    document.getElementById("stipendio").style.display = "none";
+	    document.getElementById("ruolo").style.display = "block";
+	}
+	
+	function closeRuolo() {
+	  document.getElementById("ruolo").style.display = "none";
+	}
+	 
+	function closeAnyFilter(){
+        document.getElementById("nome").style.display = "none";
+        document.getElementById("cognome").style.display = "none";
+	    document.getElementById("stipendio").style.display = "none";
+	    document.getElementById("ruolo").style.display = "none";
+	 }
+	
+	
+	 //Modal per aggiungi articolo
+	
+	// Get the modal
+	var modal = document.getElementById("modalAdd");
+
+	var modalMod = document.getElementById("modalMod");
+	
+	// Get the button that opens the modal
+	var btn = document.getElementById("openAdd");
+	
+	// Get the <span> element that closes the modal
+	var span = document.getElementById("closeAdd");
+	
+	// When the user clicks on the button, open the modal
+	btn.onclick = function() {
+	  modal.style.display = "block";
+	}
+	
+	// When the user clicks on <span> (x), close the modal
+	span.onclick = function() {
+	  modal.style.display = "none";
+	}
+
+	function openAdd() {
+		document.getElementById("modalAdd").style.display = "block";
+	}
+
+	function openMod() {
+		document.getElementById("modalMod").style.display = "block";
+	}
+
+	function closeAdd() {
+		document.getElementById("modalAdd").style.display = "none";
+	}
+
+	function closeMod() {
+		document.getElementById("modalMod").style.display = "none";
+	}
+	
+	// When the user clicks anywhere outside of the modal, close it
+	window.onclick = function(event) {
+	  if (event.target == modal) {
+	    modal.style.display = "none";
+	  }
+	}
+
+	window.onclick = function(event) {
+	  if (event.target == modalMod) {
+	    modalMod.style.display = "none";
+	  }
+	}
+	
+	//BACK-END JS
+
+	function filtering(newUrl){
+		
+		fetch(newUrl)
+			.then(response => response.json())
+			.then(impiegati => {
+				
+				console.log(impiegati);
+				
+				let body = document.getElementById("bodyTable");
+				body.innerHTML = "";
+				
+				let output = "";
+				let rif = "";
+				
+	            for (const i of impiegati) {
+	            	
+	            	if(i.dirigente==null){
+                        rif = "";
+                    } else {
+                    	rif = i.dirigente.nome + " " + i.dirigente.cognome;
+                    }
+	            	
+	                output +=
+	            		'<tr>'+
+	            '<td>'+ i.id +'</td>'+
+	            '<td>'+ i.nome +'</td>'+
+	            '<td>'+ i.cognome +'</td>'+
+	            '<td>'+ i.ruolo +'</td>'+
+	            '<td>'+ rif +'</td>'+
+	            '<td>'+ i.stipendio +'</td>'+
+	            '<td>'+ i.ufficio.nome +'</td>'+
+	            '<td><button class="btn btn-primary" onclick="getImpiegato(' + i.id + '); openMod()">Modifica</button>'+
+				'<button class="btn btn-danger"s onclick="deleteImpiegato(' + i.id + ')">Cancella</button></td>' +
+	            '</tr>';
+				
+	            
+	            }
+	            
+	            body.innerHTML += output;
+
+			})
+	}
+	
+	function createImpiegato(){
+		
+		let newImpiegato = {
+				"nome" : document.getElementById("newNome").value,
+				"cognome" : document.getElementById("newCognome").value,
+				"ruolo" : document.getElementById("newRuolo").value,
+				"rif_to" : document.getElementById("newRif").value,
+				"stipendio" : document.getElementById("newStipendio").value,
+				"ufficio_id" : document.getElementById("newUfficioId").value
+			}
+		
+		insertImpiegato(newImpiegato);
+	}
+	
+	function insertImpiegato(newImpiegato){
+		
+		const URL = "api/impiegato/insert";
+		
+		fetch(URL, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(newImpiegato)
+		})
+			.then(response => response.json())
+			.then(impiegato => {
+				console.log(impiegato);
+				//alert("Articolo numero " + articolo.id + ": " + articolo.descrizione + " inserito correttamente.")
+				getAll();
+			})
+		
+		//window.location.reload();
+		
+	}
+	
+	function getImpiegato(id) {
+		
+		const url = "/api/impiegato/update/";
+		
+		document.getElementById("updateId").value = "";
+		document.getElementById("updateName").value = "";
+		document.getElementById("updateCognome").value = "";
+		document.getElementById("updateRuolo").value = "";
+		document.getElementById("updateRif").value = "";
+		document.getElementById("updateUfficio").value = "";
+		
+		fetch(url + id)
+			.then(response => response.json())
+			.then(impiegato => {
+				
+				document.getElementById("updateId").value = impiegato.id;
+				document.getElementById("updateNome").value = impiegato.nome;
+				document.getElementById("updateCognome").value = impiegato.cognome;
+				document.getElementById("updateRuolo").value = impiegato.ruolo;
+				document.getElementById("updateRif").value = impiegato.rif_to;
+				document.getElementById("updateUfficio").value = impiegato.ufficio_id;
+				
+			})
+		
+	}
+	
+	function updateImpiegato(){
+		
+		let setImpiegato = {
+				"id" : document.getElementById("updateId").value,
+				"nome" : document.getElementById("updateNome").value,
+				"cognome" : document.getElementById("updateCognome").value,
+				"ruolo" : document.getElementById("updateRuolo").value,
+				"rif_to" : document.getElementById("updateRif").value,
+				"ufficio_id" : document.getElementById("updateUfficio").value
+			}
+		
+		insertImpiegato(setImpiegato);
+		
+	}
+	
+	function deleteImpiegato(id){
+		
+		const URL = "api/impiegato/delete/";
+		
+		fetch(URL + id, {
+			method: 'DELETE'
+		})
+		
+		window.location.reload();
+		
+	}
+	
+	function nameFilter(){
+		let name = document.getElementById("nameSearch").value;
+		const URL = "/api/impiegato/forNome/";
+		
+		let newUrl = URL + name;
+		
+		filtering(newUrl);
+	}
+	
+	function surnameFilter(){
+		let sur = document.getElementById("surnameSearch").value;
+		const URL = "/api/impiegato/forCognome/";
+		
+		let newUrl = URL + sur;
+		
+		filtering(newUrl);
+	}
+	
+	function salaryFilter(){
+		let s1 = document.getElementById("minSearch").value;
+		let s2 = document.getElementById("maxSearch").value;
+		const URL = "/api/impiegato/forStipendio/";
+		
+		let newUrl = URL + s1 + "/" + s2;
+		
+		filtering(newUrl);
+	}
+	
+	function roleFilter(){
+		let role = document.getElementById("roleSearch").value;
+		const URL = "/api/impiegato/forRuolo/";
+		
+		let newUrl = URL + role;
+		
+		filtering(newUrl);
+	}
+	
+	function getAll(){
+		filtering("/api/impiegato/allImpiegati");
+	}
+	
+	function setUffici(){
+		fetch("/api/ufficio/getAllUffici")
+			.then(response => response.json())
+			.then(uffici => {
+				
+				let output = "";
+				
+				for(const u of uffici){
+					output += '<option value="' + u.id + '">' + u.nome + '</option>'
+				}
+				
+				document.getElementById("newUfficio").innerHTML += output;
+				document.getElementById("updateUfficio").innerHTML += output;
+				
+			})
+			
+	}
+
+</script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
+<div th:replace="footer.html"></div>
+

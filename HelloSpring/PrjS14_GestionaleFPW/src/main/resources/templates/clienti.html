@@ -1,0 +1,131 @@
+<div th:replace="header.html"></div>
+
+<link rel="stylesheet" href="../css/style-clienti.css">
+<div class="container">
+
+	<h1 class="text-center mb-5 mt-5 textClr">LISTA CLIENTI</h1>
+
+    <table class="table sfondoTab" id="tabellaClienti" th:if="${clienti} != null">
+      <thead>
+        <tr>
+          <th scope="col">ID</th> 
+          <th scope="col">NOME</th>
+          <th scope="col">COGNOME</th>
+          <th scope="col">TELEFONO</th>
+          <th scope="col">EMAIL</th>
+          <th scope="col">INDIRIZZO</th>
+          <th scope="col">CITTA</th>
+          <th scope="col">PROVINCIA</th>
+          <th scope="col">REGIONE</th>
+          <th scope="col">CREDITO</th>
+          <th scope="col"></th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody id="bodyTabellaClienti">
+          <tr th:each="cliente : ${clienti}">
+            <td th:text="${cliente.id}"></td>
+            <td th:text="${cliente.nome}"></td>
+            <td th:text="${cliente.cognome}"></td>
+            <td th:text="${cliente.telefono}"></td>
+            <td th:text="${cliente.email}"></td>
+            <td th:text="${cliente.indirizzo}"></td>
+            <td th:text="${cliente.citta}"></td>
+            <td th:text="${cliente.provincia}"></td>
+            <td th:text="${cliente.regione}"></td>
+            <td>
+			    <span th:if="${cliente.credito == null}" th:text="0"></span>
+			    <span th:unless="${cliente.credito == null}" th:text="${cliente.credito}"></span>
+		   </td>
+           <td><button th:onclick="'getClienteById('+ ${cliente.id} + ')'"  class="btn btn-success" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Modifica</button></td>
+           <td><button th:onclick="'deleteCliente('+ ${cliente.id} + ')'" class="btn btn-danger">Cancella</button></td>
+		  </tr>
+       </tbody>
+    </table>
+  
+	<!-- Button trigger modal -->
+	<button type="button" class="mb-3 btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop" onclick="flushModal()">Aggiungi Cliente</button>
+
+	<!-- Modal -->
+	<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+	  <div class="modal-dialog">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+	        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+	      </div>
+	      <div class="modal-body">
+	      
+	      <!-- Modal Body -->
+	          <div class="mb-3">
+	            <label for="id" class="col-form-label">ID:</label>
+	            <input type="text" class="form-control" id="id" disabled>
+	          </div>
+	          <div class="mb-3">
+	            <label for="nome" class="col-form-label">NOME:</label>
+	            <input type="text" class="form-control" id="nome">
+	          </div>
+	          <div class="mb-3">
+	            <label for="cognome" class="col-form-label">COGNOME:</label>
+	            <input type="text" class="form-control" id="cognome">
+	          </div>
+	          <div class="mb-3">
+	            <label for="telefono" class="col-form-label">TELEFONO:</label>
+	            <input type="tel" class="form-control" id="telefono" maxlength="10" required="required">
+	          </div>
+	          <div class="mb-3">
+	            <label for="email" class="col-form-label">EMAIL:</label>
+	            <input type="email" class="form-control" id="email">
+	          </div>
+	          <div class="mb-3">
+	            <label for="indirizzo" class="col-form-label">INDIRIZZO:</label>
+	            <input type="text" class="form-control" id="indirizzo">
+	          </div>
+	          <div class="mb-3">
+	            <label for="citta" class="col-form-label">CITTA':</label>
+	            <input type="text" class="form-control" id="citta">
+	          </div>
+	          <div class="mb-3">
+	            <label for="provincia" class="col-form-label">PROVINCIA:</label>
+	            <input type="text" class="form-control" id="provincia">
+	          </div>
+	          <div class="mb-3">
+	            <label for="regione" class="col-form-label">REGIONE:</label>
+	            <input type="text" class="form-control" id="regione">
+	          </div>
+	          <div class="mb-3">
+	            <label for="credito" class="col-form-label">CREDITO:</label>
+	            <input type="number" class="form-control" id="credito">
+	          </div>
+	        
+	      </div>
+	      
+	      <!-- Modal Buttons -->
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+	        <button type="button" class="btn btn-primary" onclick="saveCliente()">Salva Cliente</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+  
+  	<!-- Filters -->  
+<div>
+	<select class="mb-3 form-select" aria-label="Default select example" name="filtering" id="filtering" onchange="inputShown()">
+	  <option selected disabled>Filtra per</option>
+	  <option value="nome">Nome</option>
+	  <option value="cognome">Cognome</option>
+	  <option value="telefono">Telefono</option>
+	  <option value="email">e-Mail</option>
+	</select>
+	<span id="inputGhost"><span>
+</div>
+
+
+
+</div>
+ 
+
+<script src="../js/clienti.js"></script>
+ 
+<div th:replace="footer.html"></div>

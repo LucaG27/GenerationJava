@@ -1,0 +1,14 @@
+<div th:replace="header" />
+
+	<h1 th:text="${titolo}"></h1>
+	<form method="post" action="comuni">
+	
+	<select id="elencoComuni" name="elencoComuni">
+		<option>scegli provincia</option>
+		<option th:each="p : ${province}" th:text="${p.comune}"></option>
+	
+	</select>
+	<input type="submit" value="cerca">	
+	</form>
+
+<div th:replace="footer" />
